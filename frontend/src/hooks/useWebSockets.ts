@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { VARIABLES } from '../environment/VARIABLES';
 import { io, Socket } from 'socket.io-client';
-import axios from 'axios';
 
 export type SocketHealth = 'healthy' | 'unhealthy' | 'loading';
 
@@ -12,13 +11,20 @@ const useWebSockets = () => {
 
   useEffect(() => {
     socket.on('connect', () => {
+      socket.emit('user-connect');
       setHealth('healthy');
-      axios.get(`${VARIABLES.API}/socket`).then((res) => {
-        setOnlineUsers(res.data);
-      });
     });
+
     socket.on('disconnect', () => setHealth('unhealthy'));
-  }, [setHealth]);
+
+    socket.on('online-count', (count: number) => setOnlineUsers(count));
+    
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('online-count');
+    };
+  }, []);
 
   return { socket, health, onlineUsers };
 };

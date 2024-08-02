@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SocketModule } from './socket/socket.module';
 import { HealthModule } from './health/health.module';
 import { HealthController } from './health/health.controller';
-import { ConfigModule } from '@nestjs/config';
+import { SocketModule } from './socket/socket.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(), SocketModule, HealthModule],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), HealthModule, SocketModule],
   controllers: [AppController, HealthController],
   providers: [AppService],
 })
