@@ -17,20 +17,20 @@ export class SocketGateway {
   @WebSocketServer()
   server: Server;
 
-  private onlineUsers = 0;
+  private onlineUsers:string[] = [];
 
   @SubscribeMessage('user-connect')
   handleUserConnect(@ConnectedSocket() client: Socket) {
-    this.onlineUsers++;
-    this.server.emit('online-count', this.onlineUsers);
+    if(!this.onlineUsers.includes(client.id)) this.onlineUsers.push(client.id)
+    this.server.emit('online-count', this.onlineUsers.length);
 
     client.on('disconnect', () => {
-      this.onlineUsers--;
-      this.server.emit('online-count', this.onlineUsers);
+      this.onlineUsers = this.onlineUsers.filter(id=> id !== client.id)
+      this.server.emit('online-count', this.onlineUsers.length);
     });
   }
 
   getOnlineUsers(): number {
-    return this.onlineUsers;
+    return this.onlineUsers.length;
   }
 }
