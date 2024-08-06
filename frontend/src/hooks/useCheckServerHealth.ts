@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { VARIABLES } from '../environment/VARIABLES';
 
 export type ServerHealth = 'healthy' | 'unhealthy' | 'loading';
 
@@ -9,13 +8,13 @@ const useCheckServerHealth = () => {
 
   useEffect(() => {
     axios
-      .get(VARIABLES.API + '/health')
+      .get(import.meta.env.VITE_API + '/health', { timeout: 10000 })
       .then(() => setHealth('healthy'))
       .catch((err) => {
         console.error(err);
         setHealth('unhealthy');
       });
-  }, [setHealth, VARIABLES.API]);
+  }, [setHealth, import.meta.env.VITE_API]);
 
   return health;
 };
