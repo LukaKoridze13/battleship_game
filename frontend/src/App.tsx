@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage';
 import { useSocketStore } from './zustand/SocketState';
 import { useEffect } from 'react';
 import { io } from 'socket.io-client';
+import AuthPage from './pages/AuthPage';
+import Header from './components/multi/Header';
 
 const App = () => {
   const { setSocket, health: socketHealth, setHealth, setOnlineUsers } = useSocketStore();
@@ -53,7 +55,10 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<HomePage />} />
+        <Route path="/" element={<Header />}>
+          <Route index element={<HomePage />} />
+          <Route path="/auth" element={<AuthPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -3,7 +3,7 @@ interface Props {
   className?: string;
 }
 const FullPage = ({ children, className }: Props) => {
-  return <main className={`fixed left-0 top-0 h-screen w-screen bg-black ${className}`}>{children}</main>;
+  return <main className={`h-screen w-screen bg-black pt-20 ${className}`}>{children}</main>;
 };
 
 export default FullPage;

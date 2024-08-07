@@ -1,12 +1,12 @@
+import Content from '../components/containers/Content';
 import FullPage from '../components/containers/FullPage';
-import OnlineUsers from '../components/simple/OnlineUsers';
 
 const HomePage = () => {
   return (
     <FullPage>
-      <header>
-        <OnlineUsers />
-      </header>
+      <Content>
+        test
+      </Content>
     </FullPage>
   );
 };
